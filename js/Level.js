@@ -75,7 +75,9 @@ export default class Level {
 				for (let ent of this.entities) {
 					if (!fixedUpdated)
 						ent._dynamicUpdate(dt);
+					this.ctx.save();
 					ent._draw(this.ctx);
+					this.ctx.restore();
 				}
 			}
 		}

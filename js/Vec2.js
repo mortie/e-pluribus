@@ -44,3 +44,4 @@ export default class Vec2 {
 }
 
 Vec2.zero = new Vec2();
+Vec2.meter = meter;

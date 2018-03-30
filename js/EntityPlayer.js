@@ -229,8 +229,8 @@ export default class EntityPlayer extends Entity {
 			ctx.fill();
 		}
 
-		ctx.fillStyle = "#fff";
-		ctx.font = "16px serif";
-		ctx.fillText(this.name, this.pos.pixelX, this.pos.pixelY);
+		//ctx.fillStyle = "#fff";
+		//ctx.font = "16px serif";
+		//ctx.fillText(this.name, this.pos.pixelX, this.pos.pixelY);
 	}
 }
