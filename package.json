@@ -1,0 +1,21 @@
+{
+  "name": "smartgame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-dev": "browserify js/main.js -t [ babelify --sourceMap ] --debug --outfile public/bundle.js",
+    "build-prod": "browserify js/main.js -t [ babelify ] --outfile public/bundle.js",
+    "watch": "dev-refresh --serve public --cmd 'npm run build-dev' js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
+    "browserify": "^14.5.0",
+    "dev-refresh": "file:../dev-refresh"
+  }
+}
