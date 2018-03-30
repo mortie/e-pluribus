@@ -45,6 +45,7 @@ export default class Level {
 		this.raf = null;
 		this.lastTime = null;
 		this.boundUpdate = this.update.bind(this);
+		this.deathZone = 40;
 	}
 
 	oops() {
@@ -122,6 +123,8 @@ export default class Level {
 		for (let s of this.spawners) {
 			this.spawn(s.create(this));
 		}
+		for (let ent of this.entities)
+			ent.init();
 
 		this.resume();
 	}

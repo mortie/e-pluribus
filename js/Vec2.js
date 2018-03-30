@@ -9,6 +9,19 @@ export default class Vec2 {
 	set(x, y) {
 		this.x = x;
 		this.y = y;
+		return this;
+	}
+
+	add(vec) {
+		this.x += vec.x;
+		this.y += vec.y;
+		return this;
+	}
+
+	sub(vec) {
+		this.x -= vec.x;
+		this.y -= vec.y;
+		return this;
 	}
 
 	clone() {

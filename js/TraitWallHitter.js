@@ -1,11 +1,13 @@
 import Trait from "./Trait.js";
+import Vec2 from "./Vec2.js";
 
 export default class TraitWallHitter extends Trait {
 	constructor(ent, filter) {
 		super(ent);
 		this.filter = filter;
-		console.log("filter:", this.filter);
-		this.collision = null;
+		this.collision = false;
+		this.onTopOf = null;
+		this.prevOnTopOf = null;
 	}
 
 	collide(e2) {
@@ -27,8 +29,9 @@ export default class TraitWallHitter extends Trait {
 			e1.velocity.x = e2.velocity.x;
 			return true;
 		} else if (side === "top" && e1.velocity.y >= e2.velocity.y) {
-			e1.bounds.bottom = e2.bounds.top;
+			e1.bounds.bottom = e2.bounds.top + 0.001;
 			e1.velocity.y = e2.velocity.y;
+			this.onTopOf = e2;
 			return true;
 		}
 
@@ -36,6 +39,7 @@ export default class TraitWallHitter extends Trait {
 	}
 
 	update(dt) {
+		this.prevOnTopOf = this.onTopOf;
 		this.collision = false;
 		let moved = false;
 		let level = this.entity.level;
@@ -44,9 +48,18 @@ export default class TraitWallHitter extends Trait {
 			moved = false;
 
 			for (let ent of level.wallEntities) {
-				if (this.collide(ent))
+				if (this.collide(ent)) {
 					this.collision = true;
+				}
 			}
 		} while (moved);
+
+		if (this.onTopOf && !this.prevOnTopOf) {
+			this.entity.relativeTo = this.onTopOf;
+			this.entity.velocity.sub(this.onTopOf.relativeVelocity());
+		} else if (!this.onTopOf && this.prevOnTopOf) {
+			this.entity.velocity.add(this.prevOnTopOf.relativeVelocity());
+			this.entity.relativeTo = null;
+		}
 	}
 }

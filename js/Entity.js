@@ -21,8 +21,11 @@ export default class Entity {
 		this.prevPos = new Vec2(this.pos.x, this.pos.y);
 		this.displayPos = new Vec2(this.pos.x, this.pos.y);
 		this.velocity = new Vec2(props.vx || 0, props.vy || 0);
+		this.relativeTo = null;
 		this.bounds = new Rect(this.pos, new Vec2(props.w || 0, props.h || 0));
 	}
+
+	init() {}
 
 	_draw(ctx) {
 		let tmp = this.pos;
@@ -51,8 +54,24 @@ export default class Entity {
 	}
 	update(dt) {}
 	postUpdate(dt) {
-		this.pos.x += this.velocity.x * dt;
-		this.pos.y += this.velocity.y * dt;
+		let rel = this.totalVelocity();
+		this.pos.x += rel.x * dt;
+		this.pos.y += rel.y * dt;
+	}
+
+	totalVelocity() {
+		return this.relativeVelocity().add(this.velocity);
+	}
+
+	relativeVelocity() {
+		let vel = new Vec2();
+		let relative = this.relativeTo;
+		while (relative) {
+			vel.x += relative.velocity.x;
+			//vel.y += relative.velocity.y;
+			relative = relative.relativeTo;
+		}
+		return vel;
 	}
 
 	collideX() {}

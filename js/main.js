@@ -10,21 +10,6 @@ level.start();
 assets.music.loop = true;
 assets.music.autoplay = true;
 
-// Pause the game when the tab has been out of focus for more than half a second
-let blurTimeout = null;
-window.addEventListener("focus", () => {
-	if (blurTimeout != null) {
-		clearTimeout(blurTimeout);
-		blurTimeout = null;
-	}
-	level.resume();
-});
-window.addEventListener("blur", () => {
-	if (blurTimeout == null) {
-		blurTimeout = setTimeout(() => level.pause(), 500);
-	}
-});
-
 // Resize canvas
 function resize() {
 	canvas.width = window.innerWidth;

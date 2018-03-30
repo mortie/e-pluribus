@@ -93,7 +93,6 @@ export default class EntityPlayer extends Entity {
 		this.tag.wall = true;
 		this.tag.player = true;
 
-
 		this.startPos = this.pos.clone();
 
 		this.traitFall = new TraitFall(this);
@@ -103,11 +102,12 @@ export default class EntityPlayer extends Entity {
 			return this.index < ent.index;
 		});
 
+		if (this.level.global.player.nextIndex == null)
+			this.level.global.player.nextIndex = 1;
+
 		if (props.log) {
 			this.input = new LogInput(props.log);
 			this.keyboardControlled = false;
-			if (this.level.global.player.nextIndex == null)
-				this.level.global.player.nextIndex = 1;
 			this.index = this.level.global.player.nextIndex++;
 		} else {
 			this.input = new KeyboardInput();
@@ -122,6 +122,14 @@ export default class EntityPlayer extends Entity {
 		this.airSpeed = 20;
 		this.groundFriction = 25;
 		this.airFriction = 3;
+	}
+
+	init() {
+		this.pos.y -= (this.level.global.player.nextIndex - 1) * this.bounds.size.y;
+	}
+
+	get name() {
+		return (this.level.global.player.nextIndex) - this.index;
 	}
 
 	update(dt) {
@@ -153,6 +161,9 @@ export default class EntityPlayer extends Entity {
 			}
 		}
 
+		if (this.pos.y >= this.level.deathZone)
+			this.die(null);
+
 		this.traitWallHitter.update(dt);
 	}
 
@@ -162,18 +173,20 @@ export default class EntityPlayer extends Entity {
 	}
 
 	die(ent) {
-		let side = this.bounds.intersectSide(ent.bounds);
-		this.velocity.set(0, 0);
-		this.active = false;
+		if (ent) {
+			let side = this.bounds.intersectSide(ent.bounds);
+			this.velocity.set(0, 0);
+			this.active = false;
 
-		if (side === "left")
-			this.bounds.right = ent.bounds.left;
-		if (side === "right")
-			this.bounds.left = ent.bounds.right;
-		if (side === "top")
-			this.bounds.bottom = ent.bounds.top;
-		if (side === "bottom")
-			this.bounds.top = ent.bounds.bottom;
+			if (side === "left")
+				this.bounds.right = ent.bounds.left;
+			if (side === "right")
+				this.bounds.left = ent.bounds.right;
+			if (side === "top")
+				this.bounds.bottom = ent.bounds.top;
+			if (side === "bottom")
+				this.bounds.top = ent.bounds.bottom;
+		}
 
 		if (this.keyboardControlled) {
 			this.level.spawners.unshift(new Spawner(EntityPlayer, {
@@ -218,6 +231,6 @@ export default class EntityPlayer extends Entity {
 
 		ctx.fillStyle = "#fff";
 		ctx.font = "16px serif";
-		ctx.fillText(this.index, this.pos.pixelX, this.pos.pixelY);
+		ctx.fillText(this.name, this.pos.pixelX, this.pos.pixelY);
 	}
 }
