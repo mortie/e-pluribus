@@ -83,13 +83,24 @@ export default [
 	level([
 		[ EntityPlayer, { x: 5, y: 10, id: "@player", lives: 5 } ],
 		[ EntityDeathZone, {} ],
-		[ EntityWall, { x: 4, y: 11, w: 5 } ],
-		[ EntityWall, { x: 20, y: 9, w: 5 } ],
-		[ EntityVictory, { x: 23, y: 8, target: "@player" } ],
+		[ EntityWall, { x: 4, y: 11, w: 3 } ],
+		[ EntityWall, { x: 15, y: 9, w: 5 } ],
+		[ EntityVictory, { x: 18, y: 8, target: "@player" } ],
 
 		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
 			"\"Life is to short to stop and take a break\"...\n"+
 			"Easy for her to say. She had 5 siblings, no wonder life\n"+
 			"went fast for her... Some would say too fast." } ],
+	]),
+
+	level([
+		[ EntityPlayer, { x: 5, y: 10, id: "@player", lives: 5 } ],
+		[ EntityDeathZone, {} ],
+		[ EntityWall, { x: 4, y: 11, w: 5 } ],
+		[ EntityWall, { x: 20, y: 9, w: 5 } ],
+		[ EntityVictory, { x: 23, y: 8, target: "@player" } ],
+
+		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
+			"We all had to work together..." } ],
 	]),
 ];

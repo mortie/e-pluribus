@@ -181,7 +181,6 @@ export default class EntityPlayer extends Entity {
 		if (this.keyboardControlled) {
 			this.level.persistent.livesLeft -= 1;
 			if (this.level.persistent.livesLeft <= 0) {
-				alert("You lose!");
 				this.level.init();
 				this.level.start();
 			} else {
