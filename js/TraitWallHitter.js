@@ -12,6 +12,8 @@ export default class TraitWallHitter extends Trait {
 
 	collide(e2) {
 		let e1 = this.entity
+		if (!e2.tag.wall)
+			return false;
 		if (!e1.bounds.intersects(e2.bounds))
 			return false;
 
@@ -41,13 +43,14 @@ export default class TraitWallHitter extends Trait {
 	update(dt) {
 		this.prevOnTopOf = this.onTopOf;
 		this.collision = false;
+		this.onTopOf = null;
 		let moved = false;
 		let level = this.entity.level;
 
 		do {
 			moved = false;
 
-			for (let ent of level.wallEntities) {
+			for (let ent of level.tags.wall) {
 				if (this.collide(ent)) {
 					this.collision = true;
 				}
@@ -55,11 +58,12 @@ export default class TraitWallHitter extends Trait {
 		} while (moved);
 
 		if (this.onTopOf && !this.prevOnTopOf) {
-			this.entity.relativeTo = this.onTopOf;
 			this.entity.velocity.sub(this.onTopOf.relativeVelocity());
-		} else if (!this.onTopOf && this.prevOnTopOf) {
+		} else if ((!this.onTopOf && this.prevOnTopOf) || this.onTopOf != this.prevOnTopOf) {
 			this.entity.velocity.add(this.prevOnTopOf.relativeVelocity());
-			this.entity.relativeTo = null;
+			this.onTopOf = null;
 		}
+
+		this.entity.relativeTo = this.onTopOf;
 	}
 }

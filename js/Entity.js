@@ -17,6 +17,7 @@ export default class Entity {
 				props[i] = defs[i];
 		}
 
+		this.id = props.id || null;
 		this.pos = new Vec2(props.x || 0, props.y || 0);
 		this.prevPos = new Vec2(this.pos.x, this.pos.y);
 		this.displayPos = new Vec2(this.pos.x, this.pos.y);
@@ -45,6 +46,8 @@ export default class Entity {
 		this.displayPos.y += diffy / steps;
 	}
 
+	preUpdate(dt) {}
+
 	_update(dt) {
 		this.update(dt);
 		this.prevPos.set(this.pos.x, this.pos.y);
@@ -54,10 +57,12 @@ export default class Entity {
 	}
 	update(dt) {}
 	postUpdate(dt) {
-		let rel = this.totalVelocity();
-		this.pos.x += rel.x * dt;
-		this.pos.y += rel.y * dt;
+		let vel = this.totalVelocity();
+		this.pos.x += vel.x * dt;
+		this.pos.y += vel.y * dt;
 	}
+
+	onTriggering(ent) {}
 
 	totalVelocity() {
 		return this.relativeVelocity().add(this.velocity);

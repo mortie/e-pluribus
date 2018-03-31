@@ -1,4 +1,5 @@
 import colors from "./colors.js";
+import Vec2 from "./Vec2.js";
 
 export class Spawner {
 	constructor(cnst, props) {
@@ -21,10 +22,15 @@ export class Spawner {
 }
 
 export default class Level {
-	constructor(can, initialSpawners) {
+	constructor(can, wincb) {
 		this.can = can;
 		this.can.style.background = colors.background;
 		this.ctx = this.can.getContext("2d");
+		this.wincb = wincb;
+	}
+
+	init(initialSpawners = this.initialSpawners) {
+		this.pause();
 		this.initialSpawners = initialSpawners;
 		this.spawners = [];
 		for (let s of this.initialSpawners) {
@@ -36,21 +42,31 @@ export default class Level {
 		this.timeAcc = 0;
 		this.paused = true;
 		this.running = false;
+		this.won = false;
 
 		this.entities = [];
-		this.wallEntities = [];
-		this.enemyEntities = [];
+		this.tags = {};
+		this.ids = {};
+		this.triggers = {};
+		this.persistent = {};
 		this.global = {};
+		this.camera = new Vec2();
 
 		this.raf = null;
 		this.lastTime = null;
 		this.boundUpdate = this.update.bind(this);
-		this.deathZone = 40;
 	}
 
-	oops() {
-		alert("You lost!");
-		this.start();
+	physics(dt) {
+		for (let i in this.triggers)
+			this.triggers[i] = false;
+
+		for (let ent of this.entities) {
+			ent.preUpdate(dt);
+		}
+		for (let ent of this.entities) {
+			ent._update(dt);
+		}
 	}
 
 	update(time) {
@@ -61,17 +77,17 @@ export default class Level {
 			if (dt <= this.maxPeriod) {
 				this.timeAcc += dt;
 
+				// Accumu
 				let fixedUpdated = false;
 				while (this.timeAcc >= this.updatePeriod) {
 					fixedUpdated = true;
-					for (let ent of this.entities) {
-						ent._update(this.updatePeriod);
-					}
+					this.physics(this.updatePeriod);
 					this.timeAcc -= this.updatePeriod;
 				}
 
 				this.ctx.beginPath();
 				this.ctx.clearRect(0, 0, this.can.width, this.can.height);
+				//this.ctx.translate(this.camera.pixelX, this.camera.pixelY);
 				for (let ent of this.entities) {
 					if (!fixedUpdated)
 						ent._dynamicUpdate(dt);
@@ -81,18 +97,46 @@ export default class Level {
 				}
 			}
 		}
-		if (this.running) {
+		if (this.running && !this.paused) {
 			this.lastTime = time;
 			this.raf = requestAnimationFrame(this.boundUpdate);
 		}
 	}
 
+	lookup(q) {
+		if (typeof q === "string")
+			q = [q];
+
+		let arr = [];
+		for (let str of q) {
+			if (str[0] === "@") {
+				if (this.ids[str])
+					arr.push(this.ids[str]);
+			} else {
+				let tagged = this.tags[str];
+				if (!tagged) {
+					console.warn("Unknown tag: "+str);
+					continue;
+				}
+				for (let ent of tagged)
+					if (ent.tag[str])
+						arr.push(ent);
+			}
+		}
+
+		return arr;
+	}
+
 	spawn(ent) {
 		this.entities.push(ent);
 		if (ent.tag.wall)
-			this.wallEntities.push(ent);
+			this.tags.wall.push(ent);
 		if (ent.tag.enemy)
-			this.enemyEntities.push(ent);
+			this.tags.enemy.push(ent);
+		if (ent.tag.player)
+			this.tags.player.push(ent);
+		if (ent.id)
+			this.ids[ent.id] = ent;
 	}
 
 	pause() {
@@ -111,17 +155,22 @@ export default class Level {
 	}
 
 	start() {
+		this.won = false;
 		this.pause();
 
 		for (let ent of this.entities)
 			ent.end();
 
-		this.global = {
-			player: {},
-		};
+		this.camera.set(0, 0);
+		this.tags = {
+			wall: [],
+			enemy: [],
+			player: [],
+		}
+		this.ids = {};
+		this.triggers = {};
+		this.global = {};
 		this.entities = [];
-		this.wallEntities = [];
-		this.enemyEntities = [];
 		for (let s of this.spawners) {
 			this.spawn(s.create(this));
 		}
@@ -129,5 +178,12 @@ export default class Level {
 			ent.init();
 
 		this.resume();
+	}
+
+	win() {
+		if (!this.won) {
+			this.wincb();
+			this.won = true;
+		}
 	}
 }

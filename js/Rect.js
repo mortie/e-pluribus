@@ -118,6 +118,8 @@ export default class Rect {
 	}
 
 	get right() {
+		if (this.size.x == Infinity)
+			return Infinity;
 		return this.pos.x + this.size.x;
 	}
 	set right(n) {

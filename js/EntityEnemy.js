@@ -9,6 +9,7 @@ export default class EntityEnemy extends Entity {
 	constructor(level, props) {
 		super(level, props);
 		this.tag.enemy = true;
+		this.tag.wall = true;
 	}
 
 	draw(ctx) {
@@ -21,11 +22,11 @@ export default class EntityEnemy extends Entity {
 		ctx.fill();
 
 		this.bounds.outline(ctx, 8);
-		ctx.fillStyle = colors.evil;
+		ctx.fillStyle = colors.good;
 		ctx.fill();
 
 		this.bounds.outline(ctx, 12);
-		ctx.fillStyle = colors.good
+		ctx.fillStyle = colors.background
 		ctx.fill();
 	}
 }

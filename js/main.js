@@ -4,8 +4,19 @@ import levels from "./levels.js";
 
 let canvas = document.getElementById("canvas");
 
-let level = new Level(canvas, levels[0]);
-level.start();
+let nextLevel = levels.length - 1;
+//let nextLevel = 0;
+let level = new Level(canvas, start);
+function start() {
+	if (nextLevel >= levels.length) {
+		level.pause();
+		alert("You won the game.");
+	} else {
+		level.init(levels[nextLevel++]);
+		level.start();
+	}
+}
+start();
 
 assets.music.loop = true;
 assets.music.autoplay = true;

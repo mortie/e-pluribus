@@ -1,10 +1,16 @@
 import {Spawner} from "./Level.js";
+import names from "./names.js";
 import Vec2 from "./Vec2.js";
 
 import EntityPlayer from "./EntityPlayer.js";
 import EntityWall from "./EntityWall.js";
 import EntityEnemy from "./EntityEnemy.js";
+import EntityDeathZone from "./EntityDeathZone.js";
+import EntitySpike from "./EntitySpike.js";
 import EntityTextBox from "./EntityTextBox.js";
+import EntityVictory from "./EntityVictory.js";
+import EntityTrigger from "./EntityTrigger.js";
+import EntityBarrier from "./EntityBarrier.js";
 
 function level(arr) {
 	let spawners = [];
@@ -17,14 +23,58 @@ function level(arr) {
 
 export default [
 	level([
-		[ EntityPlayer, { x: 10, y: 10 } ],
-		[ EntityWall, { x: 9, y: 12, w: 10 } ],
+		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityVictory, { x: 32, y: 10, target: "@player" } ],
+		[ EntityDeathZone, {} ],
+		[ EntityWall, { x: 9, y: 11, w: 25 } ],
 
-		[ EntityTextBox, { x: 7, y: 5, w: 14.5, text: 
+		[ EntityTextBox, { x: 14, y: 5, w: 15, text: 
 			"This is a story...\n"+
 			"A story about my bloodline, and the journey my ancestors\n"+
-			"have travelled to get where we are today...\n"+
-			"Join me...\n"+
-			"Let's see how it all started..." } ],
+			"have travelled to get where we are today.\n"+
+			"Join me, and see how it all started..." } ],
+	]),
+
+	level([
+		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityVictory, { x: 20, y: 10, target: "@player" } ],
+		[ EntityWall, { x: 9, y: 11, w: 5 } ],
+		[ EntityWall, { x: 17, y: 11, w: 5 } ],
+		[ EntityEnemy, { x: 14, y: 12, w: 3 } ],
+
+		[ EntityTextBox, { x: 12, y: 5, w: 7, text: 
+			"Follow "+names.mainCharacter+"'s path..." } ],
+	]),
+
+	level([
+		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityWall, { x: 9, y: 11, w: 15 } ],
+		[ EntitySpike, { x: 23, y: 10 } ],
+		[ EntitySpike, { x: 23, y: 9 } ],
+		[ EntitySpike, { x: 23, y: 8 } ],
+		[ EntityWall, { x: 24, y: 8, w: 1, h: 3 } ],
+		[ EntityVictory, { x: 24, y: 7, target: "@player" } ],
+
+		[ EntityTextBox, { x: 9, y: 5, w: 13, text: 
+			"My grandfather used to say, \"The ladder to success\n"+
+			"usually starts with your ancestors at the bottom\".\n"+
+			"I never understood that..." } ],
+	]),
+
+	level([
+		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityDeathZone, {} ],
+		[ EntityWall, { x: 6, y: 11, w: 5 } ],
+		[ EntityWall, { x: 13, y: 15, w: 3 } ],
+		[ EntityEnemy, { x: 10, y: 16, w: 3 } ],
+		[ EntityWall, { x: 7, y: 15, w: 3 } ],
+		[ EntityTrigger, { x: 14, y: 14, target: "player", action: "open" } ],
+		[ EntityBarrier, { x: 9, y: 14, h: 1, listen: "open" } ],
+		[ EntityVictory, { x: 7, y: 14, target: "@player" } ],
+
+		[ EntityTextBox, { x: 6, y: 5, w: 15, text: 
+			"There were once two brothers. One was good, but made\n"+
+			"a horrible choice. The other was evil by nature, but made\n"+
+			"the necessary sacrifice in the end." } ],
 	]),
 ];

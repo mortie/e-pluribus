@@ -4,6 +4,8 @@ import TraitWallHitter from "./TraitWallHitter.js";
 import colors from "./colors.js";
 import {Spawner} from "./Level.js";
 
+import EntityDeathZone from "./EntityDeathZone.js";
+
 class Input {
 	constructor(log) {
 		this.left = false;
@@ -84,7 +86,7 @@ class KeyboardInput extends Input {
 
 export default class EntityPlayer extends Entity {
 	defaults() {
-		return { w: 1, h: 1, log: null };
+		return { w: 1, h: 1, log: null, numLives: 5 };
 	}
 
 	constructor(level, props) {
@@ -102,13 +104,16 @@ export default class EntityPlayer extends Entity {
 			return this.index < ent.index;
 		});
 
-		if (this.level.global.player.nextIndex == null)
-			this.level.global.player.nextIndex = 1;
+		if (this.level.persistent.livesLeft == null)
+			this.level.persistent.livesLeft = props.numLives;
+
+		if (this.level.global.nextIndex == null)
+			this.level.global.nextIndex = 1;
 
 		if (props.log) {
 			this.input = new LogInput(props.log);
 			this.keyboardControlled = false;
-			this.index = this.level.global.player.nextIndex++;
+			this.index = this.level.global.nextIndex++;
 		} else {
 			this.input = new KeyboardInput();
 			this.keyboardControlled = true;
@@ -125,19 +130,14 @@ export default class EntityPlayer extends Entity {
 	}
 
 	init() {
-		this.pos.y -= (this.level.global.player.nextIndex - 1) * this.bounds.size.y;
+		this.pos.y -= (this.level.global.nextIndex - 1) * this.bounds.size.y;
 	}
 
 	get name() {
-		return (this.level.global.player.nextIndex) - this.index;
+		return (this.level.global.nextIndex) - this.index;
 	}
 
 	update(dt) {
-		if (!this.active) {
-			this.velocity.set(0, 0);
-			return;
-		}
-
 		this.traitFall.update(dt);
 		this.input.update(dt);
 
@@ -145,56 +145,65 @@ export default class EntityPlayer extends Entity {
 		let fric = onGround ? this.groundFriction : this.airFriction;
 		let speed = onGround ? this.groundSpeed : this.airSpeed;
 
-		if (this.input.left)
-			this.velocity.x -= speed * dt;
-		if (this.input.right)
-			this.velocity.x += speed * dt;
+		if (this.active) {
+			if (this.input.left)
+				this.velocity.x -= speed * dt;
+			if (this.input.right)
+				this.velocity.x += speed * dt;
+		}
 
 		var xRatio = 1 / (1 + (dt * fric));
 		this.velocity.x *= xRatio;
 
-		// Noo if bad thing
-		for (let ent of this.level.enemyEntities) {
+		// Hit enemies
+		for (let ent of this.level.tags.enemy) {
 			if (this.bounds.intersects(ent.bounds)) {
 				this.die(ent);
 				break;
 			}
 		}
 
-		if (this.pos.y >= this.level.deathZone)
-			this.die(null);
-
 		this.traitWallHitter.update(dt);
+
+		if (!this.keyboardControlled) {
+			console.log(this.traitWallHitter.collision);
+		}
 	}
 
 	postUpdate(dt) {
 		super.postUpdate(dt);
 		this.traitWallHitter.update(dt);
+
+		if (this.keyboardControlled) {
+			this.level.camera.set(
+				this.pos.x + this.level.can.width / 2,
+				this.pos.y + this.level.can.height / 2);
+		}
+	}
+
+	onTriggering(ent) {
+		if (this.active)
+			this.die(null);
 	}
 
 	die(ent) {
-		if (ent) {
-			let side = this.bounds.intersectSide(ent.bounds);
-			this.velocity.set(0, 0);
-			this.active = false;
-
-			if (side === "left")
-				this.bounds.right = ent.bounds.left;
-			if (side === "right")
-				this.bounds.left = ent.bounds.right;
-			if (side === "top")
-				this.bounds.bottom = ent.bounds.top;
-			if (side === "bottom")
-				this.bounds.top = ent.bounds.bottom;
-		}
+		this.active = false;
 
 		if (this.keyboardControlled) {
-			this.level.spawners.unshift(new Spawner(EntityPlayer, {
-				x: this.startPos.x,
-				y: this.startPos.y,
-				log: this.input.log,
-			}));
-			this.level.oops();
+			this.level.persistent.livesLeft -= 1;
+			if (this.level.persistent.livesLeft <= 0) {
+				alert("You lose!");
+				this.level.init();
+				this.level.start();
+			} else {
+				this.level.spawners.unshift(new Spawner(EntityPlayer, {
+					x: this.startPos.x,
+					y: this.startPos.y,
+					log: this.input.log,
+				}));
+				console.log(this.level.persistent.livesLeft, "level.start()");
+				this.level.start();
+			}
 		}
 	}
 
@@ -224,13 +233,12 @@ export default class EntityPlayer extends Entity {
 			ctx.fillStyle = colors.background
 			ctx.fill();
 
-			this.bounds.outline(ctx, 14);
-			ctx.fillStyle = colors.good
+			this.bounds.outline(ctx, 12);
+			if (this.active)
+				ctx.fillStyle = colors.good;
+			else
+				ctx.fillStyle = colors.evil;
 			ctx.fill();
 		}
-
-		//ctx.fillStyle = "#fff";
-		//ctx.font = "16px serif";
-		//ctx.fillText(this.name, this.pos.pixelX, this.pos.pixelY);
 	}
 }

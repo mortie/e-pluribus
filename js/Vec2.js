@@ -1,4 +1,4 @@
-let meter = 32;
+let meter = 40;
 
 export default class Vec2 {
 	constructor(x = 0, y = 0) {

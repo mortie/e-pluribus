@@ -4,18 +4,49 @@ import colors from "./colors.js";
 
 export default class EntityTextBox extends Entity {
 	defaults() {
-		return { w: 3, lineHeight: 0.6, text: "Hello World" };
+		return { w: 3, text: "Hello World" };
 	}
 
 	constructor(level, props) {
 		super(level, props);
 		this.text = props.text;
 		this.lines = this.text.split("\n");
-		this.lineHeight = props.lineHeight * Vec2.meter;
-		this.bounds.size.pixelY = this.lineHeight * this.lines.length + 8;
+		this.lineHeight = null;
+		this.textConfigured = false;
+		this.fontSize = 20;
+	}
+
+	setFont(ctx) {
+		ctx.font = this.fontSize+"px monospace";
 	}
 
 	draw(ctx) {
+		if (!this.textConfigured) {
+			ctx.fillStyle = colors.evil;
+			this.setFont(ctx);
+			ctx.textBaseline = "hanging";
+
+			let widestLineLen = 0;
+			let widestLine = "";
+			for (let line of this.lines) {
+				let w = ctx.measureText(line).width;
+				if (w > widestLineLen) {
+					widestLineLen = w;
+					widestLine = line;
+				}
+			}
+
+			while (this.fontSize > 5 && widestLineLen > this.bounds.size.pixelX - 8) {
+				this.fontSize -= 1;
+				this.setFont(ctx);
+				widestLineLen = ctx.measureText(widestLine).width;
+			}
+
+			this.lineHeight = this.fontSize;
+			this.bounds.size.pixelY = this.lineHeight * this.lines.length + 18;
+			this.textConfigured = true;
+		}
+
 		this.bounds.outline(ctx);
 		ctx.fillStyle = colors.good;
 		ctx.fill();
@@ -25,7 +56,7 @@ export default class EntityTextBox extends Entity {
 		ctx.fill();
 
 		ctx.fillStyle = colors.evil;
-		ctx.font = "13px monospace";
+		this.setFont(ctx);
 		ctx.textBaseline = "hanging";
 
 		for (let i in this.lines) {
@@ -34,5 +65,8 @@ export default class EntityTextBox extends Entity {
 				this.pos.pixelX + 8,
 				this.pos.pixelY + 10 + (this.lineHeight * i));
 		}
+
+		// ctx.textBaseline = "bottom";
+		// ctx.fillText(this.fontSize, this.pos.pixelX, this.pos.pixelY);
 	}
 }
