@@ -58,9 +58,9 @@ export default class TraitWallHitter extends Trait {
 		} while (moved);
 
 		if (this.onTopOf && !this.prevOnTopOf) {
-			this.entity.velocity.sub(this.onTopOf.relativeVelocity());
+			this.entity.velocity.sub(this.onTopOf.totalVelocity());
 		} else if ((!this.onTopOf && this.prevOnTopOf) || this.onTopOf != this.prevOnTopOf) {
-			this.entity.velocity.add(this.prevOnTopOf.relativeVelocity());
+			this.entity.velocity.add(this.prevOnTopOf.totalVelocity());
 			this.onTopOf = null;
 		}
 

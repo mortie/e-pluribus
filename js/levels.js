@@ -24,8 +24,8 @@ function level(arr) {
 export default [
 	level([
 		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
-		[ EntityVictory, { x: 32, y: 10, target: "@player" } ],
 		[ EntityDeathZone, {} ],
+		[ EntityVictory, { x: 32, y: 10, target: "@player" } ],
 		[ EntityWall, { x: 9, y: 11, w: 25 } ],
 
 		[ EntityTextBox, { x: 14, y: 5, w: 15, text: 
@@ -37,6 +37,7 @@ export default [
 
 	level([
 		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityDeathZone, {} ],
 		[ EntityVictory, { x: 20, y: 10, target: "@player" } ],
 		[ EntityWall, { x: 9, y: 11, w: 5 } ],
 		[ EntityWall, { x: 17, y: 11, w: 5 } ],
@@ -48,6 +49,7 @@ export default [
 
 	level([
 		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 9, y: 11, w: 15 } ],
 		[ EntitySpike, { x: 23, y: 10 } ],
 		[ EntitySpike, { x: 23, y: 9 } ],
@@ -73,8 +75,20 @@ export default [
 		[ EntityVictory, { x: 7, y: 14, target: "@player" } ],
 
 		[ EntityTextBox, { x: 6, y: 5, w: 15, text: 
-			"There were once two brothers. One was good, but made\n"+
+			names.mainCharacter+" had two brothers. One was good, but made\n"+
 			"a horrible choice. The other was evil by nature, but made\n"+
 			"the necessary sacrifice in the end." } ],
+	]),
+
+	level([
+		[ EntityPlayer, { x: 5, y: 10, id: "@player", lives: 5 } ],
+		[ EntityDeathZone, {} ],
+		[ EntityWall, { x: 4, y: 11, w: 5 } ],
+		[ EntityWall, { x: 20, y: 9, w: 5 } ],
+
+		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
+			"\"Life is to short to stop and take a break\"...\n"+
+			"Easy for her to say. She had 5 siblings, no wonder life\n"+
+			"went fast for her... Some would say too fast." } ],
 	]),
 ];

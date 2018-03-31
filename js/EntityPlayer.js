@@ -1,10 +1,9 @@
 import Entity from "./Entity.js";
+import Vec2 from "./Vec2.js";
 import TraitFall from "./TraitFall.js";
 import TraitWallHitter from "./TraitWallHitter.js";
 import colors from "./colors.js";
 import {Spawner} from "./Level.js";
-
-import EntityDeathZone from "./EntityDeathZone.js";
 
 class Input {
 	constructor(log) {
@@ -86,7 +85,7 @@ class KeyboardInput extends Input {
 
 export default class EntityPlayer extends Entity {
 	defaults() {
-		return { w: 1, h: 1, log: null, numLives: 5 };
+		return { w: 1, h: 1, log: null, lives: 5 };
 	}
 
 	constructor(level, props) {
@@ -105,7 +104,7 @@ export default class EntityPlayer extends Entity {
 		});
 
 		if (this.level.persistent.livesLeft == null)
-			this.level.persistent.livesLeft = props.numLives;
+			this.level.persistent.livesLeft = props.lives;
 
 		if (this.level.global.nextIndex == null)
 			this.level.global.nextIndex = 1;
@@ -164,21 +163,11 @@ export default class EntityPlayer extends Entity {
 		}
 
 		this.traitWallHitter.update(dt);
-
-		if (!this.keyboardControlled) {
-			console.log(this.traitWallHitter.collision);
-		}
 	}
 
 	postUpdate(dt) {
 		super.postUpdate(dt);
 		this.traitWallHitter.update(dt);
-
-		if (this.keyboardControlled) {
-			this.level.camera.set(
-				this.pos.x + this.level.can.width / 2,
-				this.pos.y + this.level.can.height / 2);
-		}
 	}
 
 	onTriggering(ent) {
@@ -201,7 +190,6 @@ export default class EntityPlayer extends Entity {
 					y: this.startPos.y,
 					log: this.input.log,
 				}));
-				console.log(this.level.persistent.livesLeft, "level.start()");
 				this.level.start();
 			}
 		}
@@ -212,6 +200,22 @@ export default class EntityPlayer extends Entity {
 	}
 
 	draw(ctx) {
+		if (this.keyboardControlled) {
+			let cam = this.level.camera;
+			let can = this.level.can;
+			let padding = 100;
+
+			if (this.pos.pixelX < cam.pixelX + padding)
+				cam.pixelX = this.pos.pixelX - padding;
+			else if (this.pos.pixelX > cam.pixelX + can.width - padding - this.bounds.size.pixelX)
+				cam.pixelX = this.pos.pixelX - can.width + padding + this.bounds.size.pixelY;
+
+			if (this.pos.pixelY < cam.pixelY + padding)
+				cam.pixelY = this.pos.pixelY - padding;
+			else if (this.pos.pixelY > cam.pixelY + can.height - padding - this.bounds.size.pixelY)
+				cam.pixelY = this.pos.pixelY - can.height + padding + this.bounds.size.pixelY;
+		}
+
 		if (this.keyboardControlled) {
 			this.bounds.outline(ctx);
 			ctx.fillStyle = colors.good;
@@ -233,7 +237,7 @@ export default class EntityPlayer extends Entity {
 			ctx.fillStyle = colors.background
 			ctx.fill();
 
-			this.bounds.outline(ctx, 12);
+			this.bounds.outline(ctx, 14);
 			if (this.active)
 				ctx.fillStyle = colors.good;
 			else
