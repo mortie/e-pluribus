@@ -4,7 +4,7 @@ import colors from "./colors.js";
 
 export default class EntityVictory extends Entity {
 	defaults() {
-		return { w: 1, h: 0.4, target: "", action: "" };
+		return { w: 1, h: 0.4, target: "player", action: "" };
 	}
 
 	constructor(level, props) {
@@ -22,7 +22,6 @@ export default class EntityVictory extends Entity {
 				ent.onTriggering(this);
 				this.level.triggers[this.action] = true;
 				this.actioning = true;
-				break;
 			}
 		}
 	}

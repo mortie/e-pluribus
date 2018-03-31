@@ -5,7 +5,6 @@ import levels from "./levels.js";
 let canvas = document.getElementById("canvas");
 
 let nextLevel = 0;
-//let nextLevel = levels.length - 1;
 let level = new Level(canvas, start);
 function start() {
 	if (nextLevel >= levels.length) {

@@ -23,31 +23,36 @@ function level(arr) {
 
 export default [
 	level([
-		[ EntityPlayer, { x: 5, y: 10 } ],
-		[ EntityDeathZone, {} ],
-		[ EntityVictory, { x: 28, y: 10 } ],
-		[ EntityWall, { x: 4, y: 11, w: 25 } ],
-
 		[ EntityTextBox, { x: 9, y: 5, w: 15, text: 
 			"This is a story...\n"+
 			"A story about my bloodline, and the journey my ancestors\n"+
 			"have travelled to get where we are today.\n"+
 			"Join me, and see how it all started..." } ],
+
+		[ EntityPlayer, { x: 5, y: 10 } ],
+		[ EntityDeathZone, {} ],
+		[ EntityVictory, { x: 28, y: 10 } ],
+		[ EntityWall, { x: 4, y: 11, w: 25 } ],
 	]),
 
 	level([
+		[ EntityTextBox, { x: 12, y: 5, w: 7, text: 
+			"Follow "+names.mainCharacter+"'s path..." } ],
+
 		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityVictory, { x: 20, y: 10 } ],
 		[ EntityWall, { x: 9, y: 11, w: 5 } ],
 		[ EntityWall, { x: 17, y: 11, w: 5 } ],
 		[ EntityEnemy, { x: 14, y: 12, w: 3 } ],
-
-		[ EntityTextBox, { x: 12, y: 5, w: 7, text: 
-			"Follow "+names.mainCharacter+"'s path..." } ],
 	]),
 
 	level([
+		[ EntityTextBox, { x: 9, y: 5, w: 13, text: 
+			"My grandfather used to say, \"The ladder to success\n"+
+			"usually starts with your ancestors at the bottom\".\n"+
+			"I never understood that..." } ],
+
 		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 9, y: 11, w: 15 } ],
@@ -56,14 +61,14 @@ export default [
 		[ EntitySpike, { x: 23, y: 8 } ],
 		[ EntityWall, { x: 24, y: 8, w: 1, h: 3 } ],
 		[ EntityVictory, { x: 24, y: 7 } ],
-
-		[ EntityTextBox, { x: 9, y: 5, w: 13, text: 
-			"My grandfather used to say, \"The ladder to success\n"+
-			"usually starts with your ancestors at the bottom\".\n"+
-			"I never understood that..." } ],
 	]),
 
 	level([
+		[ EntityTextBox, { x: 6, y: 5, w: 15, text: 
+			names.mainCharacter+" had two brothers. One was good, but made\n"+
+			"a horrible choice. The other was evil by nature, but made\n"+
+			"the necessary sacrifice in the end." } ],
+
 		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 6, y: 11, w: 5 } ],
@@ -73,34 +78,49 @@ export default [
 		[ EntityTrigger, { x: 14, y: 14, target: "player", action: "open" } ],
 		[ EntityBarrier, { x: 9, y: 14, h: 1, listen: "open" } ],
 		[ EntityVictory, { x: 7, y: 14 } ],
-
-		[ EntityTextBox, { x: 6, y: 5, w: 15, text: 
-			names.mainCharacter+" had two brothers. One was good, but made\n"+
-			"a horrible choice. The other was evil by nature, but made\n"+
-			"the necessary sacrifice in the end." } ],
 	]),
 
 	level([
+		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
+			"\"Life is to short to stop and take a break\"...\n"+
+			"Easy for her to say. She had 5 siblings, no wonder life\n"+
+			"went fast for her... Some would say too fast." } ],
+
 		[ EntityPlayer, { x: 5, y: 10, lives: 5 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 4, y: 11, w: 3 } ],
 		[ EntityWall, { x: 15, y: 9, w: 5 } ],
 		[ EntityVictory, { x: 18, y: 8 } ],
-
-		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
-			"\"Life is to short to stop and take a break\"...\n"+
-			"Easy for her to say. She had 5 siblings, no wonder life\n"+
-			"went fast for her... Some would say too fast." } ],
 	]),
 
 	level([
+		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
+			"We all had to work together..." } ],
+
 		[ EntityPlayer, { x: 5, y: 10, lives: 5 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 4, y: 11, w: 5 } ],
 		[ EntityWall, { x: 20, y: 9, w: 5 } ],
 		[ EntityVictory, { x: 23, y: 8 } ],
+	]),
 
-		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
-			"We all had to work together..." } ],
+	level([
+		[ EntityTextBox, { x: 4, y: 5, w: 15, text: 
+			"Sometimes, the challenges were more cerebral than physical.\n"+
+			"We had to put our brains together, think..."} ],
+
+		[ EntityPlayer, { x: 7, y: 10, lives: 5 } ],
+		[ EntityDeathZone, {} ],
+		[ EntityWall, { x: 4, y: 11, w: 7 } ],
+		[ EntityVictory, { x: 4.5, y: 10 } ],
+		[ EntityBarrier, { x: 6, y: 9.5, h: 1.5, listen: "open-3" } ],
+		[ EntityBarrier, { x: 3.5, y: 9, w: 2.5, listen: "open-3" } ],
+		[ EntityBarrier, { x: 13, y: 9, h: 5, listen: "open-1" } ],
+		[ EntityBarrier, { x: 12, y: 12, w: 10, listen: "open-1", inverted: true } ],
+		[ EntityBarrier, { x: 7, y: 16, w: 5, listen: "open-2" } ],
+		[ EntityTrigger, { x: 8, y: 15, target: "player", action: "open-1" } ],
+		[ EntityTrigger, { x: 20, y: 11, target: "player", action: "open-2" } ],
+		[ EntityTrigger, { x: 20, y: 15, target: "player", action: "open-3" } ],
+		[ EntityWall, { x: 17, y: 16, w: 5 } ],
 	]),
 ];
