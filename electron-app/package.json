@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "electron .",
     "build-html": "npm run --prefix .. build-prod && cp -r ../public .",
-    "build-app": "electron-packager . 'TG18 Game' --overwrite --platform=all --arch=x64 --icon=icons/logo --prune=true --out=release-builds"
+    "build-app": "electron-packager . 'E Pluribus' --overwrite --platform=all --arch=x64 --icon=icons/logo --prune=true --out=release-builds"
   },
   "author": "",
   "license": "ISC",

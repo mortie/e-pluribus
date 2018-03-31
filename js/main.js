@@ -4,13 +4,12 @@ import levels from "./levels.js";
 
 let canvas = document.getElementById("canvas");
 
-let nextLevel = levels.length - 2;
 //let nextLevel = 0;
+let nextLevel = levels.length - 1;
 let level = new Level(canvas, start);
 function start() {
 	if (nextLevel >= levels.length) {
-		level.pause();
-		alert("You won the game.");
+		//alert("You won the game.");
 		nextLevel = 0;
 	}
 

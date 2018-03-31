@@ -36,7 +36,7 @@ export default class EntityTextBox extends Entity {
 				}
 			}
 
-			while (this.fontSize > 5 && widestLineLen > this.bounds.size.pixelX - 8) {
+			while (this.fontSize > 5 && widestLineLen > this.bounds.size.pixelX - 14) {
 				this.fontSize -= 1;
 				this.setFont(ctx);
 				widestLineLen = ctx.measureText(widestLine).width;

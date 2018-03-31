@@ -145,6 +145,7 @@ export default class Level {
 		this.paused = true;
 		this.running = false;
 		cancelAnimationFrame(this.raf);
+		this.raf = null;
 		this.lastTime = null;
 	}
 
@@ -183,7 +184,7 @@ export default class Level {
 
 	win() {
 		if (!this.won) {
-			this.wincb();
+			setTimeout(() => this.wincb(), 0);
 			this.won = true;
 		}
 	}

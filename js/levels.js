@@ -23,9 +23,9 @@ function level(arr) {
 
 export default [
 	level([
-		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
-		[ EntityVictory, { x: 32, y: 10, target: "@player" } ],
+		[ EntityVictory, { x: 32, y: 10 } ],
 		[ EntityWall, { x: 9, y: 11, w: 25 } ],
 
 		[ EntityTextBox, { x: 14, y: 5, w: 15, text: 
@@ -36,9 +36,9 @@ export default [
 	]),
 
 	level([
-		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
-		[ EntityVictory, { x: 20, y: 10, target: "@player" } ],
+		[ EntityVictory, { x: 20, y: 10 } ],
 		[ EntityWall, { x: 9, y: 11, w: 5 } ],
 		[ EntityWall, { x: 17, y: 11, w: 5 } ],
 		[ EntityEnemy, { x: 14, y: 12, w: 3 } ],
@@ -48,14 +48,14 @@ export default [
 	]),
 
 	level([
-		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 9, y: 11, w: 15 } ],
 		[ EntitySpike, { x: 23, y: 10 } ],
 		[ EntitySpike, { x: 23, y: 9 } ],
 		[ EntitySpike, { x: 23, y: 8 } ],
 		[ EntityWall, { x: 24, y: 8, w: 1, h: 3 } ],
-		[ EntityVictory, { x: 24, y: 7, target: "@player" } ],
+		[ EntityVictory, { x: 24, y: 7 } ],
 
 		[ EntityTextBox, { x: 9, y: 5, w: 13, text: 
 			"My grandfather used to say, \"The ladder to success\n"+
@@ -64,7 +64,7 @@ export default [
 	]),
 
 	level([
-		[ EntityPlayer, { x: 10, y: 10, id: "@player" } ],
+		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 6, y: 11, w: 5 } ],
 		[ EntityWall, { x: 13, y: 15, w: 3 } ],
@@ -72,7 +72,7 @@ export default [
 		[ EntityWall, { x: 7, y: 15, w: 3 } ],
 		[ EntityTrigger, { x: 14, y: 14, target: "player", action: "open" } ],
 		[ EntityBarrier, { x: 9, y: 14, h: 1, listen: "open" } ],
-		[ EntityVictory, { x: 7, y: 14, target: "@player" } ],
+		[ EntityVictory, { x: 7, y: 14 } ],
 
 		[ EntityTextBox, { x: 6, y: 5, w: 15, text: 
 			names.mainCharacter+" had two brothers. One was good, but made\n"+
@@ -81,11 +81,11 @@ export default [
 	]),
 
 	level([
-		[ EntityPlayer, { x: 5, y: 10, id: "@player", lives: 5 } ],
+		[ EntityPlayer, { x: 5, y: 10, lives: 5 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 4, y: 11, w: 3 } ],
 		[ EntityWall, { x: 15, y: 9, w: 5 } ],
-		[ EntityVictory, { x: 18, y: 8, target: "@player" } ],
+		[ EntityVictory, { x: 18, y: 8 } ],
 
 		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
 			"\"Life is to short to stop and take a break\"...\n"+
@@ -94,11 +94,11 @@ export default [
 	]),
 
 	level([
-		[ EntityPlayer, { x: 5, y: 10, id: "@player", lives: 5 } ],
+		[ EntityPlayer, { x: 5, y: 10, lives: 5 } ],
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 4, y: 11, w: 5 } ],
 		[ EntityWall, { x: 20, y: 9, w: 5 } ],
-		[ EntityVictory, { x: 23, y: 8, target: "@player" } ],
+		[ EntityVictory, { x: 23, y: 8 } ],
 
 		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
 			"We all had to work together..." } ],

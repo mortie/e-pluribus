@@ -85,7 +85,7 @@ class KeyboardInput extends Input {
 
 export default class EntityPlayer extends Entity {
 	defaults() {
-		return { w: 1, h: 1, log: null, lives: 5 };
+		return { w: 1, h: 1, log: null, lives: 5, id: "@player" };
 	}
 
 	constructor(level, props) {
@@ -188,6 +188,7 @@ export default class EntityPlayer extends Entity {
 					x: this.startPos.x,
 					y: this.startPos.y,
 					log: this.input.log,
+					id: null,
 				}));
 				this.level.start();
 			}

@@ -4,7 +4,7 @@ import colors from "./colors.js";
 
 export default class EntityVictory extends Entity {
 	defaults() {
-		return { d: 1, target: "" };
+		return { d: 1, target: "@player" };
 	}
 
 	constructor(level, props) {
