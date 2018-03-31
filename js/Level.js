@@ -86,7 +86,7 @@ export default class Level {
 				}
 
 				this.ctx.beginPath();
-				this.ctx.resetTransform();
+				this.ctx.setTransform(1, 0, 0, 1, 0, 0);
 				this.ctx.clearRect(0, 0, this.can.width, this.can.height);
 				this.ctx.translate(-this.camera.pixelX, -this.camera.pixelY);
 				for (let ent of this.entities) {
