@@ -23,12 +23,12 @@ function level(arr) {
 
 export default [
 	level([
-		[ EntityPlayer, { x: 10, y: 10 } ],
+		[ EntityPlayer, { x: 5, y: 10 } ],
 		[ EntityDeathZone, {} ],
-		[ EntityVictory, { x: 32, y: 10 } ],
-		[ EntityWall, { x: 9, y: 11, w: 25 } ],
+		[ EntityVictory, { x: 28, y: 10 } ],
+		[ EntityWall, { x: 4, y: 11, w: 25 } ],
 
-		[ EntityTextBox, { x: 14, y: 5, w: 15, text: 
+		[ EntityTextBox, { x: 9, y: 5, w: 15, text: 
 			"This is a story...\n"+
 			"A story about my bloodline, and the journey my ancestors\n"+
 			"have travelled to get where we are today.\n"+
