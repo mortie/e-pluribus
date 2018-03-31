@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "electron .",
     "build-html": "npm run --prefix .. build-prod && cp -r ../public .",
-    "build-app": "rm -rf release-builds && electron-packager . 'E Pluribus' --overwrite --platform=all --arch=x64 --icon=icons/logo --prune=true --out=release-builds"
+    "build-app": "rm -rf release-builds && electron-packager . 'E Pluribus' --overwrite --platform=all --arch=x64 --icon=icons/logo --prune=true --out=release-builds",
+    "build-package": "mkdir -p 'E Pluribus' && cp -r 'release-builds/E Pluribus-win32-x64' 'E Pluribus' && rm -rf 'E Pluribus/E Pluribus-html' && cp -r public 'E Pluribus/E Pluribus-html'",
+    "package": "npm run build-html && npm run build-app && npm run build-package"
   },
   "author": "",
   "license": "ISC",
