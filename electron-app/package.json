@@ -1,8 +1,8 @@
 {
-  "name": "tg18-game",
-  "productName": "TG18 Game",
+  "name": "e-pluribus",
+  "productName": "E Pluribus",
   "version": "1.0.0",
-  "description": "TG18 Game",
+  "description": "E Pluribus",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +16,5 @@
     "electron": "^1.7.10",
     "electron-packager": "^10.1.0"
   },
-  "dependencies": {
-    "webframe": "^0.8.2"
-  }
+  "dependencies": {}
 }
