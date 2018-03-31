@@ -55,12 +55,12 @@ export default [
 
 		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
+		[ EntityVictory, { x: 24, y: 7 } ],
 		[ EntityWall, { x: 9, y: 11, w: 15 } ],
+		[ EntityWall, { x: 24, y: 8, w: 1, h: 3 } ],
 		[ EntitySpike, { x: 23, y: 10 } ],
 		[ EntitySpike, { x: 23, y: 9 } ],
 		[ EntitySpike, { x: 23, y: 8 } ],
-		[ EntityWall, { x: 24, y: 8, w: 1, h: 3 } ],
-		[ EntityVictory, { x: 24, y: 7 } ],
 	]),
 
 	level([
@@ -71,13 +71,13 @@ export default [
 
 		[ EntityPlayer, { x: 10, y: 10 } ],
 		[ EntityDeathZone, {} ],
+		[ EntityVictory, { x: 7, y: 14 } ],
 		[ EntityWall, { x: 6, y: 11, w: 5 } ],
 		[ EntityWall, { x: 13, y: 15, w: 3 } ],
-		[ EntityEnemy, { x: 10, y: 16, w: 3 } ],
 		[ EntityWall, { x: 7, y: 15, w: 3 } ],
+		[ EntityEnemy, { x: 10, y: 16, w: 3 } ],
 		[ EntityTrigger, { x: 14, y: 14, target: "player", action: "open" } ],
 		[ EntityBarrier, { x: 9, y: 14, h: 1, listen: "open" } ],
-		[ EntityVictory, { x: 7, y: 14 } ],
 	]),
 
 	level([
@@ -88,9 +88,9 @@ export default [
 
 		[ EntityPlayer, { x: 5, y: 10, lives: 5 } ],
 		[ EntityDeathZone, {} ],
+		[ EntityVictory, { x: 18, y: 8 } ],
 		[ EntityWall, { x: 4, y: 11, w: 3 } ],
 		[ EntityWall, { x: 15, y: 9, w: 5 } ],
-		[ EntityVictory, { x: 18, y: 8 } ],
 	]),
 
 	level([
@@ -99,9 +99,9 @@ export default [
 
 		[ EntityPlayer, { x: 5, y: 10, lives: 5 } ],
 		[ EntityDeathZone, {} ],
+		[ EntityVictory, { x: 23, y: 8 } ],
 		[ EntityWall, { x: 4, y: 11, w: 5 } ],
 		[ EntityWall, { x: 20, y: 9, w: 5 } ],
-		[ EntityVictory, { x: 23, y: 8 } ],
 	]),
 
 	level([
@@ -111,16 +111,16 @@ export default [
 
 		[ EntityPlayer, { x: 7, y: 10, lives: 5 } ],
 		[ EntityDeathZone, {} ],
-		[ EntityWall, { x: 4, y: 11, w: 7 } ],
 		[ EntityVictory, { x: 4.5, y: 10 } ],
+		[ EntityWall, { x: 4, y: 11, w: 7 } ],
+		[ EntityWall, { x: 17, y: 16, w: 5 } ],
+		[ EntityTrigger, { x: 8, y: 15, target: "player", action: "open-1" } ],
+		[ EntityTrigger, { x: 20, y: 11, target: "player", action: "open-2" } ],
+		[ EntityTrigger, { x: 20, y: 15, target: "player", action: "open-3" } ],
 		[ EntityBarrier, { x: 6, y: 9.5, h: 1.5, listen: "open-3" } ],
 		[ EntityBarrier, { x: 3.5, y: 9, w: 2.5, listen: "open-3" } ],
 		[ EntityBarrier, { x: 13, y: 9, h: 5, listen: "open-1" } ],
 		[ EntityBarrier, { x: 12, y: 12, w: 10, listen: "open-1", inverted: true } ],
 		[ EntityBarrier, { x: 7, y: 16, w: 5, listen: "open-2" } ],
-		[ EntityTrigger, { x: 8, y: 15, target: "player", action: "open-1" } ],
-		[ EntityTrigger, { x: 20, y: 11, target: "player", action: "open-2" } ],
-		[ EntityTrigger, { x: 20, y: 15, target: "player", action: "open-3" } ],
-		[ EntityWall, { x: 17, y: 16, w: 5 } ],
 	]),
 ];
