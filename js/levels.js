@@ -85,6 +85,7 @@ export default [
 		[ EntityDeathZone, {} ],
 		[ EntityWall, { x: 4, y: 11, w: 5 } ],
 		[ EntityWall, { x: 20, y: 9, w: 5 } ],
+		[ EntityVictory, { x: 23, y: 8, target: "@player" } ],
 
 		[ EntityTextBox, { x: 4, y: 4, w: 15, text: 
 			"\"Life is to short to stop and take a break\"...\n"+

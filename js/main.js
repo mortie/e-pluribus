@@ -5,7 +5,7 @@ import levels from "./levels.js";
 let canvas = document.getElementById("canvas");
 
 //let nextLevel = levels.length - 1;
-let nextLevel = 3;
+let nextLevel = 0;
 let level = new Level(canvas, start);
 function start() {
 	if (nextLevel >= levels.length) {
@@ -20,6 +20,7 @@ start();
 
 assets.music.loop = true;
 assets.music.autoplay = true;
+assets.music.volume = 0.4;
 
 // Resize canvas
 function resize() {
