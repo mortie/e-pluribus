@@ -16,6 +16,7 @@ function start() {
 	level.start();
 }
 start();
+level.resume();
 
 assets.music.loop = true;
 assets.music.autoplay = true;

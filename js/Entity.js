@@ -1,5 +1,6 @@
 import Vec2 from "./Vec2.js";
 import Rect from "./Rect.js";
+import Prerendered from "./Prerendered.js";
 
 export default class Entity {
 	defaults() { return {} }
@@ -26,16 +27,26 @@ export default class Entity {
 		this.bounds = new Rect(this.pos, new Vec2(props.w || 0, props.h || 0));
 	}
 
+	_init() {
+		this.image = new Prerendered(this.fillImage.bind(this));
+		this.init();
+		this.image.can.width = this.bounds.size.pixelX;
+		this.image.can.height = this.bounds.size.pixelY;
+		this.image.render();
+		this.displayPos.x = this.pos.x;
+		this.displayPos.y = this.pos.y;
+	}
 	init() {}
 
+	fillImage(ctx) {
+		this.bounds.draw(ctx);
+	}
+
 	_draw(ctx) {
-		let tmp = this.pos;
-		this.bounds.pos = this.pos = this.displayPos;
 		this.draw(ctx);
-		this.bounds.pos = this.pos = tmp;
 	}
 	draw(ctx) {
-		this.bounds.draw(ctx);
+		this.image.drawAt(ctx, this.displayPos);
 	}
 
 	_dynamicUpdate(dt) {
@@ -46,16 +57,21 @@ export default class Entity {
 		this.displayPos.y += diffy / steps;
 	}
 
+	_preUpdate(dt) {
+		this.preUpdate(dt);
+	}
 	preUpdate(dt) {}
 
 	_update(dt) {
 		this.update(dt);
 		this.prevPos.set(this.pos.x, this.pos.y);
 		this.displayPos.set(this.pos.x, this.pos.y);
-
-		this.postUpdate(dt);
 	}
 	update(dt) {}
+
+	_postUpdate(dt) {
+		this.postUpdate(dt);
+	}
 	postUpdate(dt) {
 		let vel = this.totalVelocity();
 		this.pos.x += vel.x * dt;

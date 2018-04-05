@@ -28,14 +28,14 @@ export default class EntityVictory extends Entity {
 
 	outlineThingy(ctx, padding = 0) {
 		ctx.beginPath();
-		ctx.moveTo(this.pos.pixelX + padding, this.pos.pixelY + this.bounds.size.pixelY);
-		ctx.lineTo(this.pos.pixelX + padding, this.pos.pixelY + padding);
-		ctx.lineTo(this.pos.pixelX + this.bounds.size.pixelX - padding, this.pos.pixelY + padding);
-		ctx.lineTo(this.pos.pixelX + this.bounds.size.pixelX - padding, this.pos.pixelY + this.bounds.size.pixelY);
+		ctx.moveTo(padding, this.bounds.size.pixelY);
+		ctx.lineTo(padding, padding);
+		ctx.lineTo(this.bounds.size.pixelX - padding, padding);
+		ctx.lineTo(this.bounds.size.pixelX - padding, this.bounds.size.pixelY);
 		ctx.closePath();
 	}
 
-	draw(ctx) {
+	fillImage(ctx) {
 		this.bounds.outline(ctx);
 		ctx.fillStyle = colors.good;
 		ctx.fill();

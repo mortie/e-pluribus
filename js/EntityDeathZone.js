@@ -10,5 +10,5 @@ export default class EntityDeathZone extends Entity {
 		this.tag.enemy = true;
 	}
 
-	draw(ctx) {}
+	fillImage(ctx) {}
 }

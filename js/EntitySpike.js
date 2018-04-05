@@ -13,11 +13,11 @@ export default class EntitySpike extends Entity {
 		this.tag.enemy = true;
 	}
 
-	draw(ctx) {
+	fillImage(ctx) {
 		ctx.beginPath();
-		ctx.moveTo(this.pos.pixelX, this.pos.pixelY + this.bounds.size.pixelY / 2);
-		ctx.lineTo(this.pos.pixelX + this.bounds.size.pixelX, this.pos.pixelY);
-		ctx.lineTo(this.pos.pixelX + this.bounds.size.pixelX, this.pos.pixelY + this.bounds.size.pixelY);
+		ctx.moveTo(0, this.bounds.size.pixelY / 2);
+		ctx.lineTo(this.bounds.size.pixelX, 0);
+		ctx.lineTo(this.bounds.size.pixelX, this.bounds.size.pixelY);
 		ctx.closePath();
 		ctx.fillStyle = colors.evil;
 		ctx.fill();

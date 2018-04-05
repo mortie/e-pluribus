@@ -1,4 +1,5 @@
 import Entity from "./Entity.js";
+import Prerendered from "./Prerendered.js";
 import Vec2 from "./Vec2.js";
 import colors from "./colors.js";
 
@@ -11,41 +12,36 @@ export default class EntityTextBox extends Entity {
 		super(level, props);
 		this.text = props.text;
 		this.lines = this.text.split("\n");
-		this.lineHeight = null;
-		this.textConfigured = false;
-		this.fontSize = 20;
 	}
 
-	setFont(ctx) {
-		ctx.font = this.fontSize+"px monospace";
-	}
+	fillImage(ctx, can) {
+		let font = "monospace";
 
-	draw(ctx) {
-		if (!this.textConfigured) {
-			ctx.fillStyle = colors.evil;
-			this.setFont(ctx);
-			ctx.textBaseline = "hanging";
+		let size = 20;
 
-			let widestLineLen = 0;
-			let widestLine = "";
-			for (let line of this.lines) {
-				let w = ctx.measureText(line).width;
-				if (w > widestLineLen) {
-					widestLineLen = w;
-					widestLine = line;
-				}
+		ctx.fillStyle = colors.evil;
+		ctx.font = size+"px "+font;
+		ctx.textBaseline = "hanging";
+
+		let widestLineLen = 0;
+		let widestLine = "";
+		for (let line of this.lines) {
+			let w = ctx.measureText(line).width;
+			if (w > widestLineLen) {
+				widestLineLen = w;
+				widestLine = line;
 			}
-
-			while (this.fontSize > 5 && widestLineLen > this.bounds.size.pixelX - 14) {
-				this.fontSize -= 1;
-				this.setFont(ctx);
-				widestLineLen = ctx.measureText(widestLine).width;
-			}
-
-			this.lineHeight = this.fontSize;
-			this.bounds.size.pixelY = this.lineHeight * this.lines.length + 18;
-			this.textConfigured = true;
 		}
+
+		while (size > 5 && widestLineLen > this.bounds.size.pixelX - 14) {
+			size -= 1;
+			ctx.font = size+"px "+font;
+			widestLineLen = ctx.measureText(widestLine).width;
+		}
+
+		let lineHeight = size;
+		this.bounds.size.pixelY = lineHeight * this.lines.length + 18;
+		can.height = this.bounds.size.pixelY;
 
 		this.bounds.outline(ctx);
 		ctx.fillStyle = colors.good;
@@ -56,17 +52,13 @@ export default class EntityTextBox extends Entity {
 		ctx.fill();
 
 		ctx.fillStyle = colors.evil;
-		this.setFont(ctx);
+		ctx.font = size+"px "+font;
 		ctx.textBaseline = "hanging";
 
 		for (let i in this.lines) {
 			ctx.fillText(
-				this.lines[i],
-				this.pos.pixelX + 8,
-				this.pos.pixelY + 10 + (this.lineHeight * i));
+				this.lines[i], 8,
+				10 + (lineHeight * i));
 		}
-
-		// ctx.textBaseline = "bottom";
-		// ctx.fillText(this.fontSize, this.pos.pixelX, this.pos.pixelY);
 	}
 }

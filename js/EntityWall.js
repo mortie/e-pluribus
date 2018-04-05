@@ -11,7 +11,7 @@ export default class EntityWall extends Entity {
 		this.tag.wall = true;
 	}
 
-	draw(ctx) {
+	fillImage(ctx) {
 		this.bounds.outline(ctx);
 		ctx.fillStyle = colors.good;
 		ctx.fill();

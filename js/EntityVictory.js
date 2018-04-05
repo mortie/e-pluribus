@@ -26,12 +26,11 @@ export default class EntityVictory extends Entity {
 	outlineCircle(ctx, padding = 0) {
 		ctx.beginPath();
 		ctx.arc(
-			this.pos.pixelX + this.radius,
-			this.pos.pixelY + this.radius,
+			this.radius, this.radius,
 			this.radius - padding, 0, 2 * Math.PI);
 	}
 
-	draw(ctx) {
+	fillImage(ctx) {
 		this.outlineCircle(ctx, 2);
 		ctx.fillStyle = colors.good;
 		ctx.fill();

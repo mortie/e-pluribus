@@ -30,7 +30,6 @@ export default class Level {
 	}
 
 	init(initialSpawners = this.initialSpawners) {
-		this.pause();
 		this.initialSpawners = initialSpawners;
 		this.spawners = [];
 		for (let s of this.initialSpawners) {
@@ -40,8 +39,6 @@ export default class Level {
 		this.maxPeriod = 1;
 		this.updatePeriod = 1 / 60;
 		this.timeAcc = 0;
-		this.paused = true;
-		this.running = false;
 		this.won = false;
 
 		this.entities = [];
@@ -61,16 +58,15 @@ export default class Level {
 		for (let i in this.triggers)
 			this.triggers[i] = false;
 
-		for (let ent of this.entities) {
-			ent.preUpdate(dt);
-		}
-		for (let ent of this.entities) {
+		for (let ent of this.entities)
+			ent._preUpdate(dt);
+		for (let ent of this.entities)
 			ent._update(dt);
-		}
+		for (let ent of this.entities)
+			ent._postUpdate(dt);
 	}
 
 	update(time) {
-		this.running = true;
 		if (this.lastTime != null) {
 			let dt = (time - this.lastTime) / 1000;
 
@@ -96,12 +92,15 @@ export default class Level {
 					ent._draw(this.ctx);
 					this.ctx.restore();
 				}
+			} else {
+				console.warn(
+					"Skipping frame because delta time is too big. "+
+					"DT: "+dt.toFixed(2)+", max: "+this.maxPeriod);
 			}
 		}
-		if (this.running && !this.paused) {
-			this.lastTime = time;
-			this.raf = requestAnimationFrame(this.boundUpdate);
-		}
+
+		this.raf = requestAnimationFrame(this.boundUpdate);
+		this.lastTime = time;
 	}
 
 	lookup(q) {
@@ -141,24 +140,15 @@ export default class Level {
 	}
 
 	pause() {
-		if (this.paused) return;
-		this.paused = true;
-		this.running = false;
 		cancelAnimationFrame(this.raf);
-		this.raf = null;
-		this.lastTime = null;
 	}
 
 	resume() {
-		if (!this.paused) return;
-		this.paused = false;
-		this.timeAcc = 0;
 		this.update(null);
 	}
 
 	start() {
 		this.won = false;
-		this.pause();
 
 		for (let ent of this.entities)
 			ent.end();
@@ -177,9 +167,7 @@ export default class Level {
 			this.spawn(s.create(this));
 		}
 		for (let ent of this.entities)
-			ent.init();
-
-		this.resume();
+			ent._init();
 	}
 
 	win() {

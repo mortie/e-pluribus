@@ -13,10 +13,10 @@ export default class Rect {
 
 	outline(ctx, padding = 0) {
 		ctx.beginPath();
-		ctx.moveTo(this.pixelLeft + padding, this.pixelTop + padding);
-		ctx.lineTo(this.pixelRight - padding, this.pixelTop + padding);
-		ctx.lineTo(this.pixelRight - padding, this.pixelBottom - padding);
-		ctx.lineTo(this.pixelLeft + padding, this.pixelBottom - padding);
+		ctx.moveTo(+padding, +padding);
+		ctx.lineTo(this.size.pixelX - padding, +padding);
+		ctx.lineTo(this.size.pixelX - padding, this.size.pixelY - padding);
+		ctx.lineTo(+padding, this.size.pixelY - padding);
 		ctx.closePath();
 	}
 

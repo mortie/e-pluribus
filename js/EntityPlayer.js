@@ -1,4 +1,5 @@
 import Entity from "./Entity.js";
+import Prerendered from "./Prerendered.js";
 import Vec2 from "./Vec2.js";
 import TraitFall from "./TraitFall.js";
 import TraitWallHitter from "./TraitWallHitter.js";
@@ -177,6 +178,7 @@ export default class EntityPlayer extends Entity {
 
 	die(ent) {
 		this.active = false;
+		this.image.render();
 
 		if (this.keyboardControlled) {
 			this.level.persistent.livesLeft -= 1;
@@ -199,22 +201,7 @@ export default class EntityPlayer extends Entity {
 		this.input.end();
 	}
 
-	draw(ctx) {
-		if (this.keyboardControlled) {
-			let cam = this.level.camera;
-			let can = this.level.can;
-			let padding = 100;
-
-			if (this.pos.pixelX < cam.pixelX + padding)
-				cam.pixelX = this.pos.pixelX - padding;
-			else if (this.pos.pixelX > cam.pixelX + can.width - padding - this.bounds.size.pixelX)
-				cam.pixelX = this.pos.pixelX - can.width + padding + this.bounds.size.pixelY;
-
-			if (this.pos.pixelY < cam.pixelY + padding)
-				cam.pixelY = this.pos.pixelY - padding;
-			else if (this.pos.pixelY > cam.pixelY + can.height - padding - this.bounds.size.pixelY)
-				cam.pixelY = this.pos.pixelY - can.height + padding + this.bounds.size.pixelY;
-		}
+	fillImage(ctx) {
 
 		if (this.keyboardControlled) {
 			this.bounds.outline(ctx);
@@ -243,6 +230,26 @@ export default class EntityPlayer extends Entity {
 			else
 				ctx.fillStyle = colors.evil;
 			ctx.fill();
+		}
+	}
+
+	draw(ctx) {
+		super.draw(ctx);
+
+		if (this.keyboardControlled) {
+			let can = this.level.can;
+			let cam = this.level.camera;
+			let padding = 100;
+
+			if (this.pos.pixelX < cam.pixelX + padding)
+				cam.pixelX = this.pos.pixelX - padding;
+			else if (this.pos.pixelX > cam.pixelX + can.width - padding - this.bounds.size.pixelX)
+				cam.pixelX = this.pos.pixelX - can.width + padding + this.bounds.size.pixelY;
+
+			if (this.pos.pixelY < cam.pixelY + padding)
+				cam.pixelY = this.pos.pixelY - padding;
+			else if (this.pos.pixelY > cam.pixelY + can.height - padding - this.bounds.size.pixelY)
+				cam.pixelY = this.pos.pixelY - can.height + padding + this.bounds.size.pixelY;
 		}
 	}
 }
